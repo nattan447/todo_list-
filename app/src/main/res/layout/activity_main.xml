@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+
+        >
+
+
+    <TextView
+        android:id="@+id/todoTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Todo List!"
+        android:textColor="@color/red"
+        android:textSize="70px"
+        android:textStyle="bold"
+        android:layout_centerHorizontal="true"
+
+        />
+
+    <EditText
+        android:id="@+id/inputTask"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/todoTxt"
+        android:layout_centerInParent="false"
+        android:layout_marginTop="40dp"
+        android:height="100px"
+        android:background="@drawable/edit_text_border"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:paddingLeft="10dp"
+        android:ems="10" />
+
+    <Button
+        android:id="@+id/addTaskBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/inputTask"
+        android:text="adicionar"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        />
+
+        <LinearLayout
+            android:id="@+id/main"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation ="vertical"
+            android:layout_below="@+id/addTaskBtn"
+            >
+
+        </LinearLayout>
+<!--        <LinearLayout-->
+<!--            android:id="@+id/taskContainer"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:orientation="vertical"-->
+<!--            android:layout_below="@+id/addTaskBtn"-->
+<!--            android:background="@color/black"-->
+<!--            android:layout_centerHorizontal="true"-->
+<!--            >-->
+
+
+
+<!--        </LinearLayout>-->
+
+<!--        <LinearLayout-->
+<!--            android:id="@+id/containerBtn"-->
+<!--            android:layout_width = "100dp"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:background="@color/black"-->
+<!--            android:layout_below="@+id/addTaskBtn"-->
+<!--            android:orientation="vertical"-->
+
+<!--            >-->
+
+
+
+<!--        </LinearLayout>-->
+
+
+
+</RelativeLayout>
+
+</ScrollView>
