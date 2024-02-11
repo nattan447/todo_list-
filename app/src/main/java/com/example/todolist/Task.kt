@@ -1,11 +1,20 @@
 package com.example.todolist
 
+import android.content.Context
 import android.graphics.Color
+import android.graphics.Color.RED
+import android.graphics.drawable.Drawable
+import android.service.dreams.DreamService
+import android.text.InputFilter
+import android.text.InputType
 import android.text.Layout
 import android.view.Gravity
+import android.view.KeyEvent
 import android.view.View
 import android.view.ViewGroup.MarginLayoutParams
+import android.view.inputmethod.EditorInfo
 import android.widget.Button
+import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
@@ -21,20 +30,57 @@ import java.io.File.separator
 import java.io.StringReader
 
 
-class TaskControl (val task : String, private val newText:TextView,  private val removeButton: Button,private val mainContainer: LinearLayout, var taskview: LinearLayout ){
+class TaskControl (val task : String, private val newText:TextView,private val mainContainer: LinearLayout, private  val context : Context){
+
+
+    private  val taskView : LinearLayout = LinearLayout(context)
+
+    private val taskText : EditText = EditText(context)
 
     private var empty = true;
 
 
-   private val defaultParams = LinearLayout.LayoutParams(
+   private val btnParams = LinearLayout.LayoutParams(
         LinearLayout.LayoutParams.WRAP_CONTENT,
-
         LinearLayout.LayoutParams.WRAP_CONTENT,
         )
 
-    private val textStyle = defaultParams
 
-    private  val btnStyle =  defaultParams
+
+
+
+
+
+
+    private fun createTaskView(){
+
+
+        taskView.layoutParams = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.MATCH_PARENT,
+
+
+            )
+
+        val marginLayoutParams = MarginLayoutParams(taskView.layoutParams)
+
+        marginLayoutParams.setMargins(0, 100, 0, 0)
+
+        taskView.layoutParams = marginLayoutParams
+
+        taskView.orientation = LinearLayout.HORIZONTAL
+
+
+        taskView.gravity = Gravity.CENTER_VERTICAL
+
+
+        taskView.gravity = Gravity.END
+
+
+
+
+
+    }
 
 
      fun checkEmpty(){
@@ -50,19 +96,67 @@ class TaskControl (val task : String, private val newText:TextView,  private val
      }
 
 
-    private  fun createButton(){
+    private  fun editButton () {
+        val editBtn : Button = Button (context)
 
-        btnStyle.leftMargin = 300;
+        editBtn.text = "edit"
 
-        removeButton.text = "remove"
+        editBtn.layoutParams = btnParams
 
-        removeButton.layoutParams = btnStyle
+        editBtn.setTextColor(context.getColor(R.color.red))
 
-//        removeButton.setBackgroundColor(Color.RED)
+        editBtn.background = context.getDrawable(R.drawable.edit_text_border)
 
-        removeButton.setTextColor(Color.WHITE)
+        btnParams.rightMargin = 30;
 
-        taskview.addView(removeButton)
+
+        taskView.addView(editBtn)
+
+
+        editBtn.setOnClickListener {
+
+          taskText.isEnabled = true;
+
+            println("it is possible to edit")
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+    }
+
+
+
+
+    private  fun removeButton(){
+
+
+
+        val removeButton : Button = Button (context)
+
+        removeButton.text = "Remove"
+
+        btnParams.height = 100
+
+        removeButton.layoutParams = btnParams
+
+        btnParams.gravity = Gravity.END
+
+        removeButton.setTextColor(context.getColor(R.color.red))
+
+        removeButton.background = context.getDrawable(R.drawable.edit_text_border) ;
+
+
+
+        taskView.addView(removeButton)
 
         removeButton.setOnClickListener{
 
@@ -76,55 +170,70 @@ class TaskControl (val task : String, private val newText:TextView,  private val
 
 
 
+
+
+
     fun createTask(){
 
-        taskview.layoutParams = LinearLayout.LayoutParams(
-            LinearLayout.LayoutParams.MATCH_PARENT,
-            LinearLayout.LayoutParams.MATCH_PARENT,
-
-
-        )
-
-        val marginLayoutParams = MarginLayoutParams(taskview.layoutParams)
-
-        marginLayoutParams.setMargins(0, 100, 0, 0)
-
-
-        taskview.layoutParams = marginLayoutParams
-
-        taskview.orientation = LinearLayout.HORIZONTAL
-
-
-        taskview.gravity = Gravity.CENTER_VERTICAL
-
-
-        taskview.gravity = Gravity.CENTER_HORIZONTAL
-
-
-
-        taskview.setBackgroundColor(Color.CYAN)
-
-
         if(!empty){
-            newText.text = task
+
+            val taskParams =  LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+            )
 
 
-            newText.textSize= 18f;
+            createTaskView()
 
 
-            newText.setTextColor(Color.RED);
+            taskText.setText(task);
 
-            newText.id = View.generateViewId();
+            taskText.isEnabled = false
+
+            taskText.textSize = 18f
+
+            taskText.setTextColor(RED);
 
 
-            newText.layoutParams = textStyle
+
+            taskText.maxLines = 1;
+
+            taskText.inputType = InputType.TYPE_CLASS_TEXT;
+
+            taskText.id = View.generateViewId()
+
+            taskText.filters = arrayOf<InputFilter>(InputFilter.LengthFilter(10))
+
+            taskText.layoutParams = taskParams
+
+            taskParams.rightMargin = 300
+
+            taskText.background = context.getDrawable(R.drawable.task_text_background)
+
+            taskView.addView(taskText)
 
 
-            taskview.addView(newText)
 
-                 createButton();
+            taskText.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
+                if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP) {
 
-            mainContainer.addView(taskview)
+                    taskText.isEnabled = false
+
+                    return@OnKeyListener true
+
+                }
+
+                false
+            })
+
+
+
+            editButton()
+
+            removeButton();
+
+
+            mainContainer.addView(taskView)
 
 
         }
@@ -136,7 +245,7 @@ class TaskControl (val task : String, private val newText:TextView,  private val
 
    private fun deleteTask(){
 
-       mainContainer.removeView(taskview)
+       mainContainer.removeView(taskView)
 
     }
 

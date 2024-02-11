@@ -1,6 +1,8 @@
 package com.example.todolist
 
+import android.content.Context
 import android.graphics.Color
+import android.graphics.drawable.Drawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Gravity
@@ -9,6 +11,7 @@ import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.core.view.marginTop
 import  com.example.todolist.TaskControl
 import  com.example.todolist.Teste
@@ -22,6 +25,10 @@ import  com.example.todolist.Teste
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+
+        val context : Context = this
+
+
         val containerRelative = findViewById<RelativeLayout>(R.id.container)
 
         val mainContainer = findViewById<LinearLayout>(R.id.main)
@@ -34,15 +41,11 @@ import  com.example.todolist.Teste
 
         addBtn.setOnClickListener {
 
-            var removeBtn = Button(this)
-
             val newText = TextView(this)
 
             val taskValue = textTaskView.text.toString()
 
-            var taskView = LinearLayout(this)
-
-            val task = TaskControl(taskValue,newText,  removeBtn,mainContainer,taskView );
+            val task = TaskControl(taskValue,newText,mainContainer, context );
 
             task.checkEmpty();
 

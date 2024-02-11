@@ -3,6 +3,7 @@
 <ScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/idw"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -10,7 +11,6 @@
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
 
         >
 
@@ -39,6 +39,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:paddingLeft="10dp"
+        android:maxLength="10"
         android:ems="10" />
 
     <Button
@@ -60,36 +61,6 @@
             >
 
         </LinearLayout>
-<!--        <LinearLayout-->
-<!--            android:id="@+id/taskContainer"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:orientation="vertical"-->
-<!--            android:layout_below="@+id/addTaskBtn"-->
-<!--            android:background="@color/black"-->
-<!--            android:layout_centerHorizontal="true"-->
-<!--            >-->
-
-
-
-<!--        </LinearLayout>-->
-
-<!--        <LinearLayout-->
-<!--            android:id="@+id/containerBtn"-->
-<!--            android:layout_width = "100dp"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:background="@color/black"-->
-<!--            android:layout_below="@+id/addTaskBtn"-->
-<!--            android:orientation="vertical"-->
-
-<!--            >-->
-
-
-
-<!--        </LinearLayout>-->
-
-
-
 </RelativeLayout>
 
 </ScrollView>
