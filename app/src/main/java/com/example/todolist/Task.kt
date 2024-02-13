@@ -30,7 +30,7 @@ import java.io.File.separator
 import java.io.StringReader
 
 
-class TaskControl (val task : String, private val newText:TextView,private val mainContainer: LinearLayout, private  val context : Context){
+class TaskControl (val task : String, private val newText:TextView,private val mainContainer: LinearLayout, private  val context : Context,val Storage:Storage){
 
 
     private  val taskView : LinearLayout = LinearLayout(context)
@@ -83,15 +83,20 @@ class TaskControl (val task : String, private val newText:TextView,private val m
     }
 
 
-     fun checkEmpty(){
+     fun checkEmpty():Boolean{
          val regex  =  Regex("^\\S+$")
 
          val nonSpaceList =  task.split("").filter {  regex.matches(it) === true }
 
          val taskLength = nonSpaceList.joinToString(separator = "").length
 
-         if(taskLength>=1)
+         if(taskLength>=1){
              empty = false
+            return false
+         }
+             return true
+
+
 
      }
 
@@ -139,7 +144,6 @@ class TaskControl (val task : String, private val newText:TextView,private val m
     private  fun removeButton(){
 
 
-
         val removeButton : Button = Button (context)
 
         removeButton.text = "Remove"
@@ -161,6 +165,9 @@ class TaskControl (val task : String, private val newText:TextView,private val m
         removeButton.setOnClickListener{
 
             deleteTask();
+
+            Storage.removeData(task)
+
 
         }
 
@@ -217,6 +224,10 @@ class TaskControl (val task : String, private val newText:TextView,private val m
             taskText.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
                 if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP) {
 
+                    Storage.removeData(task);
+
+                    Storage.addTask(taskText.text.toString());
+
                     taskText.isEnabled = false
 
                     return@OnKeyListener true
@@ -231,6 +242,8 @@ class TaskControl (val task : String, private val newText:TextView,private val m
             editButton()
 
             removeButton();
+
+            Storage.addTask(task)
 
 
             mainContainer.addView(taskView)

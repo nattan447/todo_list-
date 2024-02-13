@@ -1,33 +1,25 @@
 package com.example.todolist
 
 import android.content.Context
-import android.graphics.Color
-import android.graphics.drawable.Drawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Gravity
 import android.widget.Button
-import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.core.view.marginTop
 import  com.example.todolist.TaskControl
-import  com.example.todolist.Teste
+import  com.example.todolist.Storage
+import kotlin.reflect.typeOf
 
 
-
-
- class MainActivity : AppCompatActivity() {
-
+class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_main)
 
-
         val context : Context = this
-
 
         val containerRelative = findViewById<RelativeLayout>(R.id.container)
 
@@ -35,9 +27,36 @@ import  com.example.todolist.Teste
 
         var textTaskView:TextView = findViewById(R.id.inputTask);
 
-
         val addBtn = findViewById<Button>(R.id.addTaskBtn);
 
+        val storage = Storage(this)
+
+        val dataStorage =  storage.getData()
+
+        if(dataStorage!=null)
+        {
+            val list = dataStorage.split("").filter { it != "[" && it != "]" }.joinToString (separator =  "").split((", "))
+
+            if(list.isNotEmpty()){
+
+                for(task in list){
+
+                    val newText = TextView(this)
+
+                    val task = TaskControl(task ,newText,mainContainer, context ,storage);
+
+                    task.checkEmpty()
+
+                    task.createTask()
+
+
+                }
+
+
+            }
+
+
+        }
 
         addBtn.setOnClickListener {
 
@@ -45,9 +64,9 @@ import  com.example.todolist.Teste
 
             val taskValue = textTaskView.text.toString()
 
-            val task = TaskControl(taskValue,newText,mainContainer, context );
+            val task = TaskControl(taskValue,newText,mainContainer, context ,storage);
 
-            task.checkEmpty();
+            task.checkEmpty()
 
             task.createTask()
 
